@@ -1,31 +1,35 @@
-navigator.getUserMedia = navigator.getUserMedia ||navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-var analyser;
-var microphone;
+const delaySliderElement = document.querySelector('#range-slider');
+const delayDisplayElement = document.querySelector('#range-display');
 
-var range = document.querySelector('#range-slider');
-var rangeDisplay = document.querySelector('#range-display');
+let delayNode;
 
-var delayNode;
+const setUpAudioDelay = function (stream) {
+    const audioContext = new AudioContext();
+
+    delayNode = audioContext.createDelay(100);
+    delayNode.delayTime.value = 0;
+
+    const microphone = audioContext.createMediaStreamSource(stream);
+    microphone.connect(delayNode);
+    delayNode.connect(audioContext.destination);
+};
+
+const handleDelayUpdate = function () {
+    const newDelay = delaySliderElement.value;
+    delayNode.delayTime.value = newDelay;
+    delayDisplayElement.textContent = newDelay;
+};
+
+const handleUserMediaError = function () {
+    alert('An unexpected error occurred. Please try a different web browser or computer.');
+};
 
 if (navigator.getUserMedia) {
-  navigator.getUserMedia(
-    {audio: true}, 
-    function(stream) {
-const aCtx = new AudioContext();
-     delayNode  = aCtx.createDelay(100);
-      microphone = aCtx.createMediaStreamSource(stream);
-      delayNode.delayTime.value = 0;
-      var destination=aCtx.destination;
-      microphone.connect(delayNode);
-      delayNode.connect(destination);
-    },
-    function(){ console.log("Error.")}
-  );
+    navigator.getUserMedia({ audio: true }, setUpAudioDelay, handleUserMediaError);
+} else {
+    alert('Your web browser does not support this operation.');
 }
 
-range.oninput = function() {
-  const newDelay = range.value;
-  delayNode.delayTime.value = newDelay;
-  rangeDisplay.textContent = newDelay;
-}
+delaySliderElement.oninput = handleDelayUpdate;
