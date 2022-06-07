@@ -1,0 +1,22 @@
+#range-slider {
+  width: 100%;
+}
+
+.range-display-container {
+  display: inline-block;
+  padding: 1em;
+  font-family: sans-serif;
+}
+
+.range-display-container > h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+body {
+  text-align: center;
+}
+
+.range-display-container > p {
+  margin-bottom: 0;
+}

@@ -4,6 +4,7 @@ var analyser;
 var microphone;
 
 var range = document.querySelector('#range-slider');
+var rangeDisplay = document.querySelector('#range-display');
 
 var delayNode;
 
@@ -24,5 +25,7 @@ const aCtx = new AudioContext();
 }
 
 range.oninput = function() {
-  delayNode.delayTime.value = range.value;
+  const newDelay = range.value;
+  delayNode.delayTime.value = newDelay;
+  rangeDisplay.textContent = newDelay;
 }
