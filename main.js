@@ -1,4 +1,4 @@
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
 const delaySliderElement = document.querySelector('#range-slider');
 const delayDisplayElement = document.querySelector('#range-display');
