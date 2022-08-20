@@ -1,35 +1,39 @@
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+function beginAudioCapture() {
+    document.querySelector('body').classList.add('user-accepted');
 
-const delaySliderElement = document.querySelector('#range-slider');
-const delayDisplayElement = document.querySelector('#range-display');
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
-let delayNode;
+    const delaySliderElement = document.querySelector('#range-slider');
+    const delayDisplayElement = document.querySelector('#range-display');
 
-const setUpAudioDelay = function (stream) {
-    const audioContext = new AudioContext();
+    let delayNode;
 
-    delayNode = audioContext.createDelay(100);
-    delayNode.delayTime.value = 0;
+    const setUpAudioDelay = function (stream) {
+        const audioContext = new AudioContext();
 
-    const microphone = audioContext.createMediaStreamSource(stream);
-    microphone.connect(delayNode);
-    delayNode.connect(audioContext.destination);
-};
+        delayNode = audioContext.createDelay(100);
+        delayNode.delayTime.value = 0;
 
-const handleDelayUpdate = function () {
-    const newDelay = delaySliderElement.value;
-    delayNode.delayTime.value = newDelay;
-    delayDisplayElement.textContent = newDelay;
-};
+        const microphone = audioContext.createMediaStreamSource(stream);
+        microphone.connect(delayNode);
+        delayNode.connect(audioContext.destination);
+    };
 
-const handleUserMediaError = function () {
-    alert('An unexpected error occurred. Please try a different web browser or computer.');
-};
+    const handleDelayUpdate = function () {
+        const newDelay = delaySliderElement.value;
+        delayNode.delayTime.value = newDelay;
+        delayDisplayElement.textContent = newDelay;
+    };
 
-if (navigator.getUserMedia) {
-    navigator.getUserMedia({ audio: true }, setUpAudioDelay, handleUserMediaError);
-} else {
-    alert('Your web browser does not support this operation.');
+    const handleUserMediaError = function () {
+        alert('An unexpected error occurred. Please try a different web browser or computer.');
+    };
+
+    if (navigator.getUserMedia) {
+        navigator.getUserMedia({audio: true}, setUpAudioDelay, handleUserMediaError);
+    } else {
+        alert('Your web browser does not support this operation.');
+    }
+
+    delaySliderElement.oninput = handleDelayUpdate;
 }
-
-delaySliderElement.oninput = handleDelayUpdate;

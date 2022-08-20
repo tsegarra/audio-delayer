@@ -20,3 +20,19 @@ body {
 .range-display-container > p {
   margin-bottom: 0;
 }
+
+.hidden-until-user-accepts {
+  display: none;
+}
+
+.user-accepted .hidden-until-user-accepts {
+  display: block;
+}
+
+.user-accepted .hidden-after-user-accepts {
+  display: none;
+}
+
+#btn-begin-audio-capture {
+  margin-top: 1em;
+}
