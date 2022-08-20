@@ -7,11 +7,12 @@ function beginAudioCapture() {
     const delayDisplayElement = document.querySelector('#range-display');
 
     let delayNode;
+    
+    const audioContext = new AudioContext();
+    alert('got audio context');
 
     const setUpAudioDelay = function (stream) {
         alert('setting up audio delay');
-        const audioContext = new AudioContext();
-        alert('got audio context');
 
         delayNode = audioContext.createDelay(100);
         delayNode.delayTime.value = 0;
