@@ -39,7 +39,8 @@ function beginAudioCapture() {
 
     if (userMedia) {
         alert('got user media');
-        userMedia({audio: true}).then(setUpAudioDelay); //, setUpAudioDelay, handleUserMediaError);
+        navigator.mediaDevices.getUserMedia({audio: true}).then(setUpAudioDelay); //, setUpAudioDelay, handleUserMediaError);
+        alert('end of getting user media');
     } else {
         alert('Your web browser does not support this operation.');
     }
