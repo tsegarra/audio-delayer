@@ -39,7 +39,7 @@ function beginAudioCapture() {
 
     if (userMedia) {
         alert('got user media');
-        userMedia({audio: true}, setUpAudioDelay, handleUserMediaError);
+        userMedia({audio: true}).then(setUpAudioDelay); //, setUpAudioDelay, handleUserMediaError);
     } else {
         alert('Your web browser does not support this operation.');
     }
