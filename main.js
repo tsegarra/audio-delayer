@@ -1,7 +1,7 @@
 function beginAudioCapture() {
     document.querySelector('body').classList.add('user-accepted');
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+    const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
     const delaySliderElement = document.querySelector('#range-slider');
     const delayDisplayElement = document.querySelector('#range-display');
@@ -36,9 +36,9 @@ function beginAudioCapture() {
         alert('An unexpected error occurred. Please try a different web browser or computer.');
     };
 
-    if (navigator.getUserMedia) {
+    if (userMedia) {
         alert('got user media');
-        navigator.getUserMedia({audio: true}, setUpAudioDelay, handleUserMediaError);
+        userMedia({audio: true}, setUpAudioDelay, handleUserMediaError);
     } else {
         alert('Your web browser does not support this operation.');
     }
