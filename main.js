@@ -9,17 +9,24 @@ function beginAudioCapture() {
     let delayNode;
 
     const setUpAudioDelay = function (stream) {
+        alert('setting up audio delay');
         const audioContext = new AudioContext();
+        alert('got audio context');
 
         delayNode = audioContext.createDelay(100);
         delayNode.delayTime.value = 0;
+        alert('configured delay node');
 
         const microphone = audioContext.createMediaStreamSource(stream);
+        alert('got media stream source');
         microphone.connect(delayNode);
+        alert('connected delay node');
         delayNode.connect(audioContext.destination);
+        alert('connected to destination');
     };
 
     const handleDelayUpdate = function () {
+        alert('delay update');
         const newDelay = delaySliderElement.value;
         delayNode.delayTime.value = newDelay;
         delayDisplayElement.textContent = newDelay;
@@ -30,6 +37,7 @@ function beginAudioCapture() {
     };
 
     if (navigator.getUserMedia) {
+        alert('got user media');
         navigator.getUserMedia({audio: true}, setUpAudioDelay, handleUserMediaError);
     } else {
         alert('Your web browser does not support this operation.');
