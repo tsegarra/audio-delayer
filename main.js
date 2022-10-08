@@ -1,7 +1,18 @@
 function beginAudioCapture() {
     document.querySelector('body').classList.add('user-accepted');
 
-    const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+    const userMedia = navigator.getUserMedia(
+        {
+            'audio': {
+                'mandatory': {
+                    'googEchoCancellation': 'false',
+                    'googAutoGainControl': 'false',
+                    'googNoiseSuppression': 'false',
+                    'googHighpassFilter': 'false',
+                },
+            },
+        }
+    ) || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
     const delaySliderElement = document.querySelector('#range-slider');
     const delayDisplayElement = document.querySelector('#range-display');
