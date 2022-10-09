@@ -1,24 +1,13 @@
 function beginAudioCapture() {
     document.querySelector('body').classList.add('user-accepted');
 
-    const userMedia = navigator.getUserMedia(
-        {
-            'audio': {
-                'mandatory': {
-                    'googEchoCancellation': 'false',
-                    'googAutoGainControl': 'false',
-                    'googNoiseSuppression': 'false',
-                    'googHighpassFilter': 'false',
-                },
-            },
-        }
-    ) || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+    const userMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
     const delaySliderElement = document.querySelector('#range-slider');
     const delayDisplayElement = document.querySelector('#range-display');
 
     let delayNode;
-    
+
     const audioContext = new AudioContext();
 
     const setUpAudioDelay = function (stream) {
@@ -36,12 +25,22 @@ function beginAudioCapture() {
         delayDisplayElement.textContent = newDelay;
     };
 
-    const handleUserMediaError = function () {
-        alert('An unexpected error occurred. Please try a different web browser or computer.');
-    };
-
     if (userMedia) {
-        navigator.mediaDevices.getUserMedia({audio: true}).then(setUpAudioDelay); //, setUpAudioDelay, handleUserMediaError);
+        navigator.getUserMedia({
+                "audio": {
+                    "mandatory": {
+                        "googEchoCancellation": "false",
+                        "googAutoGainControl": "false",
+                        "googNoiseSuppression": "false",
+                        "googHighpassFilter": "false"
+                    },
+                    "optional": []
+                },
+            }, setUpAudioDelay,
+            function (e) {
+                alert('error getting user media');
+                console.error(e);
+            });
     } else {
         alert('Your web browser does not support this operation.');
     }
